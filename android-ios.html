@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1210" />
+    <title>Cradle · 安卓 / iOS 部署与启动</title>
+    <style>
+      :root { color-scheme: dark; --bg:#0d1210; --panel:#151b18; --line:rgba(255,255,255,.12); --text:#e9e4da; --muted:#9aa79f; --accent:#d9b98a; }
+      * { box-sizing: border-box; }
+      body { margin:0; min-height:100dvh; padding:28px 18px calc(28px + env(safe-area-inset-bottom)); background:radial-gradient(circle at 80% 10%,rgba(120,150,135,.14),transparent 45%),var(--bg); color:var(--text); font-family:ui-sans-serif,system-ui,"Noto Sans SC",sans-serif; }
+      main { width:min(680px,100%); margin:0 auto; }
+      .brand { letter-spacing:.35em; color:var(--accent); font-size:12px; }
+      h1 { margin:10px 0 8px; font-size:clamp(28px,7vw,40px); }
+      .lead { color:var(--muted); line-height:1.7; margin:0 0 22px; }
+      .cta { display:block; text-align:center; padding:15px 20px; border-radius:14px; background:var(--accent); color:#1a140c; font-weight:700; text-decoration:none; margin-bottom:24px; }
+      section { border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:17px 18px; margin-bottom:13px; }
+      h2 { margin:0 0 9px; font-size:17px; }
+      p,li { color:var(--muted); line-height:1.75; font-size:14px; }
+      ol,ul { margin:8px 0 0; padding-left:19px; }
+      code { color:var(--accent); background:rgba(255,255,255,.05); padding:2px 6px; border-radius:5px; word-break:break-all; }
+      pre { overflow:auto; padding:11px; border-radius:8px; background:#0a0f0d; border:1px solid var(--line); color:#cdebd9; font-size:12.5px; }
+      .note { border-color:rgba(255,138,122,.45); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="brand">CRADLE · 摇篮 · MOBILE</div>
+      <h1>安卓 / iOS</h1>
+      <p class="lead">手机不装 App 也能玩。电脑开服务，手机用浏览器打开，或者部署到 HTTPS 后添加到主屏幕。</p>
+
+      <a class="cta" id="mobile-link" href="http://192.168.1.2:4173/">进入手机版 Web</a>
+      <script>
+        if (location.hostname.endsWith('github.io')) {
+          document.getElementById('mobile-link').href = './';
+        }
+      </script>
+
+      <section>
+        <h2>一、同一 Wi-Fi 直接玩</h2>
+        <ol>
+          <li>电脑在构建目录运行：<br /><code>pnpm preview --host 0.0.0.0</code></li>
+          <li>记下电脑局域网 IP，例如 <code>192.168.1.2</code>；</li>
+          <li>手机浏览器打开 <code>http://192.168.1.2:4173</code>。</li>
+        </ol>
+        <p>打不开时检查 Windows 防火墙是否放行 4173 端口，以及手机和电脑是否在同一网段。</p>
+      </section>
+
+      <section>
+        <h2>二、添加到主屏幕</h2>
+        <ul>
+          <li><strong>iOS Safari</strong>：分享 → 添加到主屏幕；</li>
+          <li><strong>安卓 Chrome</strong>：菜单 → 添加到主屏幕 / 安装应用；</li>
+          <li>局域网 HTTP 地址不会弹安装提示，但可以正常游玩；</li>
+          <li>真正“安装”需要 HTTPS 域名。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>三、部署到公网（推荐）</h2>
+        <ol>
+          <li>把 <code>dist/</code> 部署到 Netlify / Cloudflare Pages / Vercel；</li>
+          <li>拿到 HTTPS 域名；</li>
+          <li>手机打开域名，Safari/Chrome 即可添加到主屏幕，离线启动。</li>
+        </ol>
+        <pre>pnpm build
+# 把 dist 上传到静态托管</pre>
+      </section>
+
+      <section class="note">
+        <h2>四、手机端注意</h2>
+        <ul>
+          <li>存档走 IndexedDB，按域名隔离；换地址会变成新存档；</li>
+          <li>iOS 长期不访问可能清理站点数据，重要存档请导出备份；</li>
+          <li>竖屏已适配，但小屏战斗按钮区域会内部滚动；</li>
+          <li>便携版 exe 的存档不会同步到手机。</li>
+        </ul>
+      </section>
+    </main>
+
+  </body>
+</html>

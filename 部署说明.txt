@@ -1,0 +1,20 @@
+﻿GitHub Pages 部署说明
+====================
+一、自动部署（推荐）
+1. 把仓库里的 .github/workflows/pages.yml 一起提交到 main 分支。
+2. 打开 GitHub 仓库 Settings -> Pages。
+3. Build and deployment 的 Source 选择 "GitHub Actions"。
+4. push 到 main 后，工作流会自动构建并发布。
+5. 地址：https://<用户名>.github.io/<仓库名>/
+
+二、手动部署
+1. 把本文件夹里的全部内容上传到仓库的 gh-pages 分支，或 docs/ 目录。
+2. 如果放到 docs/，Settings -> Pages 选择该目录。
+3. 不要漏掉 .nojekyll。
+4. 地址同上。
+
+说明
+- 本构建使用相对路径，仓库放在任意子路径都能加载。
+- 更新内容后重新构建：设置环境变量 GITHUB_PAGES=1 后运行 pnpm build。
+- pc.html / android-ios.html 在 github.io 域名下会自动改为进入当前站点。
+- 手机用 HTTPS 地址即可添加到主屏幕，存档走 IndexedDB。

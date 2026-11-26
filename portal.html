@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1210" />
+    <title>Cradle · 摇篮 · 选择设备</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0d1210;
+        --panel: #151b18;
+        --line: rgba(255, 255, 255, 0.12);
+        --text: #e9e4da;
+        --muted: #9aa79f;
+        --accent: #d9b98a;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background:
+          radial-gradient(circle at 20% 10%, rgba(217, 185, 138, 0.12), transparent 40%),
+          radial-gradient(circle at 80% 90%, rgba(120, 150, 135, 0.12), transparent 45%),
+          var(--bg);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, "Noto Sans SC", sans-serif;
+      }
+      main { width: min(720px, 100%); }
+      .brand { letter-spacing: 0.35em; color: var(--accent); font-size: 13px; margin-bottom: 10px; }
+      h1 { margin: 0 0 8px; font-size: clamp(30px, 6vw, 48px); font-weight: 600; }
+      .lead { margin: 0 0 28px; color: var(--muted); line-height: 1.7; }
+      .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+      a.card {
+        display: block;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)), var(--panel);
+        color: var(--text);
+        text-decoration: none;
+        transition: border-color 0.15s, transform 0.15s;
+      }
+      a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+      .icon { font-size: 28px; margin-bottom: 12px; }
+      .card h2 { margin: 0 0 6px; font-size: 20px; }
+      .card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+      .hint { margin-top: 22px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+      code { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="brand">CRADLE · 摇篮</div>
+      <h1>从哪里开始？</h1>
+      <p class="lead">选择你现在使用的设备。两端共用同一份 Web 构建，但存档按访问地址隔离。</p>
+
+      <div class="cards">
+        <a class="card" href="pc.html" id="pc-link">
+          <div class="icon">🖥️</div>
+          <h2>电脑 / Windows</h2>
+          <p>在本机浏览器直接打开 Web 版。推荐 Chrome / Edge。</p>
+        </a>
+
+        <a class="card" href="android-ios.html" id="mobile-link">
+          <div class="icon">📱</div>
+          <h2>安卓 / iOS</h2>
+          <p>手机与电脑在同一 Wi-Fi 时打开。可“添加到主屏幕”。</p>
+        </a>
+      </div>
+
+      <p class="hint" id="hint"></p>
+    </main>
+
+    <script>
+      const isLocal = ['127.0.0.1', 'localhost'].includes(location.hostname);
+      const lanOrigin = 'http://192.168.1.2:4173';
+      const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+      const mobileLink = document.getElementById('mobile-link');
+      const hint = document.getElementById('hint');
+
+      if (isLocal) {
+        mobileLink.href = lanOrigin + '/android-ios.html';
+        hint.innerHTML = '手机请访问 <code>' + lanOrigin + '/portal.html</code>；手机端打开后再选择“安卓 / iOS”。Windows 防火墙需允许 4173 端口。';
+      } else {
+        mobileLink.href = location.origin + '/android-ios.html';
+        hint.textContent = '已通过当前地址访问，两种设备都可以直接进入。存档按域名/端口隔离，建议固定使用同一个地址。';
+      }
+
+      if (mobile) {
+        mobileLink.style.borderColor = 'var(--accent)';
+        mobileLink.querySelector('h2').textContent += '（当前设备）';
+      } else {
+        document.getElementById('pc-link').style.borderColor = 'var(--accent)';
+        document.getElementById('pc-link').querySelector('h2').textContent += '（当前设备）';
+      }
+    </script>
+  </body>
+</html>

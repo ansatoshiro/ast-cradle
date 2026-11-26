@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1210" />
+    <title>Cradle · 电脑端部署与启动</title>
+    <style>
+      :root { color-scheme: dark; --bg:#0d1210; --panel:#151b18; --line:rgba(255,255,255,.12); --text:#e9e4da; --muted:#9aa79f; --accent:#d9b98a; }
+      * { box-sizing: border-box; }
+      body { margin:0; min-height:100dvh; padding:32px 20px; background:radial-gradient(circle at 15% 10%,rgba(217,185,138,.12),transparent 40%),var(--bg); color:var(--text); font-family:ui-sans-serif,system-ui,"Noto Sans SC",sans-serif; }
+      main { width:min(760px,100%); margin:0 auto; }
+      .brand { letter-spacing:.35em; color:var(--accent); font-size:12px; }
+      h1 { margin:10px 0 8px; font-size:clamp(28px,5vw,42px); }
+      .lead { color:var(--muted); line-height:1.7; margin:0 0 24px; }
+      .cta { display:inline-block; padding:13px 22px; border-radius:12px; background:var(--accent); color:#1a140c; font-weight:700; text-decoration:none; margin-bottom:26px; }
+      section { border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:18px 20px; margin-bottom:14px; }
+      h2 { margin:0 0 10px; font-size:18px; }
+      p,li { color:var(--muted); line-height:1.75; font-size:14px; }
+      ol,ul { margin:8px 0 0; padding-left:20px; }
+      code { color:var(--accent); background:rgba(255,255,255,.05); padding:2px 6px; border-radius:5px; }
+      pre { overflow:auto; padding:12px; border-radius:8px; background:#0a0f0d; border:1px solid var(--line); color:#cdebd9; font-size:13px; }
+      .note { border-color:rgba(255,138,122,.45); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="brand">CRADLE · 摇篮 · PC</div>
+      <h1>电脑端</h1>
+      <p class="lead">这是电脑端的部署与启动说明。Web 版不需要安装程序，解压后当静态站点运行即可。</p>
+
+      <a class="cta" id="pc-link" href="http://127.0.0.1:4173/">进入电脑版 Web</a>
+      <script>
+        if (location.hostname.endsWith('github.io')) {
+          document.getElementById('pc-link').href = './';
+        }
+      </script>
+
+      <section>
+        <h2>一、本机直接运行</h2>
+        <ol>
+          <li>拿到构建产物：<code>cradle-web.zip</code> 或仓库的 <code>dist/</code> 目录；</li>
+          <li>解压到任意目录；</li>
+          <li>用任意静态服务器指向该目录。</li>
+        </ol>
+        <pre>pnpm build
+pnpm preview --host 0.0.0.0</pre>
+        <p>然后打开 <code>http://127.0.0.1:4173</code>。不要直接双击 <code>index.html</code>，ES Module 和 Service Worker 需要 HTTP 环境。</p>
+      </section>
+
+      <section>
+        <h2>二、部署到公网</h2>
+        <ul>
+          <li><strong>Netlify Drop</strong>：把 <code>dist</code> 拖进网页即可；</li>
+          <li><strong>Cloudflare Pages / Vercel</strong>：构建命令 <code>pnpm build</code>，输出目录 <code>dist</code>；</li>
+          <li><strong>自己的服务器</strong>：Nginx 指向 <code>dist</code>，未知路径回退 <code>index.html</code>。</li>
+        </ul>
+        <p>上线后建议固定域名。Web 存档按“协议 + 域名 + 端口”隔离，换地址就是新存档。</p>
+      </section>
+
+      <section>
+        <h2>三、桌面便携版</h2>
+        <p>Windows 桌面直接运行 <code>cradle.exe</code> 便携版，存档在 <code>%APPDATA%\dev.cradle.framework</code> 或 exe 同级的 <code>data</code> 目录。</p>
+        <p>便携版和 Web 版存档<strong>不互通</strong>，两边各自独立。</p>
+      </section>
+
+      <section class="note">
+        <h2>四、注意</h2>
+        <ul>
+          <li>PWA 安装提示需要 HTTPS 或 localhost；</li>
+          <li>首次加载后 Service Worker 会缓存界面，断网也能启动；</li>
+          <li>内容包 zip 仍在游戏内手动导入。</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
