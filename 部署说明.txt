@@ -18,3 +18,4 @@
 - 更新内容后重新构建：设置环境变量 GITHUB_PAGES=1 后运行 pnpm build。
 - pc.html / android-ios.html 在 github.io 域名下会自动改为进入当前站点。
 - 手机用 HTTPS 地址即可添加到主屏幕，存档走 IndexedDB。
+- 桌面便携版与网页版存档不互通。
